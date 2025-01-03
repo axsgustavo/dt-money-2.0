@@ -2,8 +2,11 @@ import { Header } from "../../components/Header";
 import { Summary } from "../../components/Summary";
 import { SearchForm } from "./components/SearchForm";
 import { PriceHighlight, Table, TransactionsContainer } from "./styles";
+import { useTransactionContext } from "../../contexts/TransactionsContext";
 
 export function Transactions() {
+  const { transactions } = useTransactionContext();
+
   return (
     <div>
       <Header />
@@ -13,6 +16,20 @@ export function Transactions() {
         <SearchForm />
         <Table>
           <tbody>
+            {transactions.map((transaction) => {
+              return (
+                <tr key={transaction.id}>
+                  <td width="50%">{transaction.description}</td>
+                  <td>
+                    <PriceHighlight variant={transaction.type}>
+                      {transaction.price}
+                    </PriceHighlight>
+                  </td>
+                  <td>{transaction.category}</td>
+                  <td>{transaction.createdAt}</td>
+                </tr>
+              );
+            })}
             <tr>
               <td width="50%">Desenvolvimento de site</td>
               <td>
